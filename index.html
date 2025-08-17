@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GitHub User Lookup</title>
+    <title>Weather Destructuring Demo</title>
 </head>
 <body>
-    <form>
-        <input id="username" placeholder="GitHub username" />
-        <button>Search</button>
-    </form>
-    <div id="profile"></div>
-
     <script>
-        document.querySelector("form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
+        const fakeData = { 
+            location: { name: "Manila" },
+            current: {
+                temp_c: 30,
+                condition: {
+                    text: "Partly Cloudy",
+                },
+            },
+        };
 
-            try {
-                const res = await fetch(`https://api.github.com/users/${username}`);
-                const { avatar_url, bio } = await res.json();
+        // Use destructuring
+        const {
+            location: { name },
+            current: {
+                temp_c,
+                condition: { text },
+            },
+        } = fakeData;
 
-                document.getElementById("profile").innerHTML = `
-                    <div class="card">
-                        <img src="${avatar_url}" width="100" />
-                        <p>${bio || "No bio available."}</p>
-                    </div>
-                `;
-            } catch (err) {
-                document.getElementById("profile").innerText = "User not found.";
-            }
-        });
+        console.log(`Weather in ${name}: ${temp_c}°C and ${text}`);
     </script>
 </body>
 </html>
